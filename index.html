@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Red Sox Widget</title>
+  <style>
+  body {
+    margin: 0;
+    background-color: transparent;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    user-select: none;
+    -webkit-user-select: none;
+    padding: 10px;
+  }
+
+  #game-widget {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    -webkit-app-region: drag;
+  }
+
+  .always-on-top {
+    border: 2px solid #00c6ff; /* macOS-like neon blue glow */
+  }
+
+  #game-header {
+    text-align: center;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #a0aec0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+  }
+  
+  #game-title {
+    -webkit-app-region: no-drag; /* important for selecting function */ 
+    pointer-events: auto;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: #a0aec0;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    text-align: center;
+    width: 100%;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 20px;
+  }
+
+  #game-title:hover {
+    color: #e2e8f0;
+  }
+
+  #game-header::after {
+    content: "▼";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+    color: #a0aec0;
+    pointer-events: none;
+    transition: color 0.2s ease;
+  }
+
+  #game-header:hover::after {
+    color: #e2e8f0;
+  }
+
+  #game-title option {
+    background: #1e3a5f;
+    color: #e2e8f0;
+    padding: 4px;
+  }
+
+  #scoreboard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+  }
+
+  .team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+  }
+
+  .team-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .team-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .team-score {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .team-name {
+    font-size: 11px;
+    color: #a0aec0;
+  }
+
+  #game-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+  }
+
+  .status-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .bases {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .base-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .base {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transform: rotate(45deg);
+  }
+
+  .base.occupied {
+    background-color: #ff6b35;
+    border-color: #ff6b35;
+  }
+
+  .outs {
+    display: flex;
+    gap: 4px;
+  }
+
+  .out {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .out.filled {
+    background-color: #e53e3e;
+    border-color: #e53e3e;
+  }
+
+  .inning-count {
+    font-size: 12px;
+    font-weight: 500;
+    color: #e2e8f0;
+  }
+
+  #game-update {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #e2e8f0;
+    text-align: left;
+  }
+</style>
+
+</head>
+<body>
+  <div id="game-widget">
+    <div id="game-header">
+      <select id="game-title">
+        <option>Loading games...</option>
+        <option>1</option>
+        <option>1</option>
+        <option>1</option>
+      </select>
+    </div>
+    <div id="scoreboard">
+      <div id="away-team" class="team">
+        <div class="team-header">
+          <img class="team-logo" src="" alt="">
+          <div class="team-score"></div>
+        </div>
+        <div class="team-name"></div>
+      </div>
+      <div id="game-status">
+        <div class="status-icons">
+          <div class="bases">
+            <div class="base base-2" id="base-2"></div>
+            <div class="base-row">
+              <div class="base base-3" id="base-3"></div>
+              <div class="base base-1" id="base-1"></div>
+            </div>
+          </div>
+          <div class="outs">
+            <div class="out" id="out-1"></div>
+            <div class="out" id="out-2"></div>
+            <div class="out" id="out-3"></div>
+          </div>
+        </div>
+        <div class="inning-count"></div>
+      </div>
+      <div id="home-team" class="team">
+        <div class="team-header">
+          <div class="team-score"></div>
+          <img class="team-logo" src="" alt="">
+        </div>
+        <div class="team-name"></div>
+      </div>
+    </div>
+    <div id="game-update"></div>
+  </div>
+  <script type="module" src="renderer.js"></script>
+</body>
+</html>
