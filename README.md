@@ -4,7 +4,6 @@ A real-time MLB scoreboard that floats above all your other windows so
 you never have to switch tabs to check the score.
 
 ![MLB Score Widget Start](assets/mlb-score-widget.png)
-
 ![MLB Score Widget Final](assets/mlb-score-final.png)
 
 ## Features
