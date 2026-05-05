@@ -138,8 +138,16 @@ function displaySelectedGame() {
       const balls = situation.balls || 0;
       const strikes = situation.strikes || 0;
       inningStatus = `${topBottom} ${inning} • ${balls}-${strikes}`;
+      
+      // Update bases
+      updateBases(situation);
+      // Update outs
+      updateOuts(situation.outs || 0);
     } else {
       inningStatus = status;
+      // Clear bases and outs if no situation data
+      clearBases();
+      clearOuts();
     }
     document.querySelector(".inning-count").textContent = inningStatus;
 
@@ -157,6 +165,43 @@ function displaySelectedGame() {
       gameUpdate = status;
     }
   document.getElementById("game-update").textContent = gameUpdate;
+}
+
+function updateBases(situation) {
+  // Clear all bases first
+  clearBases();
+  
+  if (situation.onFirst) {
+    document.getElementById("base-1").classList.add("occupied");
+  }
+  if (situation.onSecond) {
+    document.getElementById("base-2").classList.add("occupied");
+  }
+  if (situation.onThird) {
+    document.getElementById("base-3").classList.add("occupied");
+  }
+}
+
+function clearBases() {
+  document.getElementById("base-1").classList.remove("occupied");
+  document.getElementById("base-2").classList.remove("occupied");
+  document.getElementById("base-3").classList.remove("occupied");
+}
+
+function updateOuts(outs) {
+  // Clear all outs first
+  clearOuts();
+  
+  // Fill outs based on count
+  for (let i = 1; i <= outs && i <= 3; i++) {
+    document.getElementById(`out-${i}`).classList.add("filled");
+  }
+}
+
+function clearOuts() {
+  document.getElementById("out-1").classList.remove("filled");
+  document.getElementById("out-2").classList.remove("filled");
+  document.getElementById("out-3").classList.remove("filled");
 }
 
 async function updateSelectedGame() {

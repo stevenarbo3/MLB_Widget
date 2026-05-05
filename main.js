@@ -1,4 +1,4 @@
-const { app, Menu, BrowserWindow } = require('electron');
+const { app, Menu, BrowserWindow, nativeImage } = require('electron');
 const path = require('path');
 
 let win;
@@ -52,4 +52,9 @@ function createWindow () {
 
 
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  if (process.platform === 'darwin') {
+    app.dock.setIcon(nativeImage.createFromPath(path.join(__dirname, 'build/icons.icns')));
+  }
+  createWindow();
+});

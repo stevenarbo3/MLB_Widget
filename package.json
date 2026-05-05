@@ -1,18 +1,37 @@
 {
-  "name": "redsox_widget",
+  "name": "mlb-widget",
   "version": "1.0.0",
-  "description": "",
+  "description": "A real-time MLB scoreboard desktop widget with always-on-top and position lock features",
   "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
-
-  },
-  "keywords": [],
-  "author": "",
+  "author": "Steven Arbo",
   "license": "ISC",
   "type": "commonjs",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
   "devDependencies": {
-    "electron": "^37.2.1"
+    "electron": "^37.2.1",
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.stevenarbo.mlbwidget",
+    "productName": "MLB Widget",
+    "icon": "build/icons.icns",
+    "mac": {
+  "icon": "build/icons.icns",
+  "target": [
+    {
+      "target": "dmg",
+      "arch": ["arm64"]
+    }
+  ],
+  "category": "public.app-category.sports",
+  "identity": null
+},
+"dmg": {
+  "title": "MLB Widget",
+  "sign": false
+}
   }
 }
