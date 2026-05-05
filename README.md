@@ -16,7 +16,7 @@ you never have to switch tabs to check the score.
 
 ## Install
 
-1. Download the latest `.dmg` from [Releases](link)
+1. Download the latest `.dmg` from [Releases](https://github.com/stevenarbo3/MLB_Widget/releases/download/v1.0.0/MLB.Widget-1.0.0-arm64.dmg)
 2. Open the `.dmg` and drag to Applications
 3. Launch MLB Score Widget
 
