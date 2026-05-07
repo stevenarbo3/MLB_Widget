@@ -1,5 +1,7 @@
 # MLB Score Widget
 
+[![MLB Widget API Tests](https://github.com/stevenarbo3/MLB_Widget/actions/workflows/test.yml/badge.svg)](https://github.com/stevenarbo3/MLB_Widget/actions/workflows/test.yml)
+
 A real-time MLB scoreboard that floats above all your other windows so
 you never have to switch tabs to check the score.
 
